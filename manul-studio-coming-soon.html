@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manul Studio — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E1A;
+    --bg-deep: #05060D;
+    --violet: #7C5CFC;
+    --cyan: #38BDF8;
+    --amber: #FFB347;
+    --text-soft: #C7C9E0;
+    --text-bright: #F5F5FA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text-soft);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  /* ---------- Starfield ---------- */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse at 50% 0%, #121630 0%, var(--bg-deep) 70%);
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 4s infinite ease-in-out;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.9; }
+  }
+
+  /* ---------- Layout ---------- */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  section {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .portal-wrap {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin-bottom: 36px;
+  }
+
+  .portal-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,179,71,0.55) 0%, rgba(124,92,252,0.25) 45%, transparent 72%);
+    filter: blur(6px);
+    animation: pulse-glow 3.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  .portal-ring {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+  }
+
+  .ring-track {
+    fill: none;
+    stroke: rgba(199, 201, 224, 0.12);
+    stroke-width: 2;
+  }
+
+  .ring-progress {
+    fill: none;
+    stroke: url(#portalGradient);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+  }
+
+  .ring-spin {
+    fill: none;
+    stroke: rgba(56, 189, 248, 0.35);
+    stroke-width: 1;
+    stroke-dasharray: 4 10;
+    animation: spin-ring 18s linear infinite;
+  }
+
+  @keyframes spin-ring {
+    to { transform: rotate(360deg); }
+  }
+
+  .portal-core {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .m-logo {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 6px;
+  }
+
+  .countdown-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--amber);
+    display: flex;
+    gap: 10px;
+  }
+
+  .countdown-numbers span b {
+    display: block;
+    font-size: 1.05rem;
+    color: var(--text-bright);
+    font-weight: 700;
+  }
+
+  .countdown-numbers span {
+    text-align: center;
+    text-transform: uppercase;
+    opacity: 0.85;
+    font-size: 0.6rem;
+  }
+
+  .wordmark {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+  }
+
+  .pillars {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 500;
+  }
+
+  .tagline {
+    margin-top: 30px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.15rem, 3vw, 1.6rem);
+    color: var(--text-soft);
+    max-width: 560px;
+  }
+
+  .scroll-hint {
+    margin-top: 56px;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(199,201,224,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scroll-hint .line {
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(to bottom, var(--cyan), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ---------- Divider ---------- */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto;
+    max-width: 920px;
+    padding: 0 24px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(124,92,252,0.4), transparent);
+  }
+
+  .divider-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--violet);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---------- Section blocks ---------- */
+  .block {
+    padding: 100px 24px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  .block h2 {
+    font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+    color: var(--text-bright);
+    font-weight: 600;
+    max-width: 640px;
+    margin: 0 auto 20px;
+    line-height: 1.25;
+  }
+
+  .block p.sub {
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+    opacity: 0.85;
+  }
+
+  /* Branding teaser swatches */
+  .swatch-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .swatch {
+    width: 108px;
+    height: 140px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(199,201,224,0.12);
+    background: linear-gradient(160deg, #14172c, #0B0E1A);
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  .swatch::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, var(--sw-color, var(--violet)) 0%, transparent 60%);
+    opacity: 0.35;
+    filter: blur(2px);
+  }
+
+  .swatch span {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+  }
+
+  /* Dossier cards */
+  .dossier-row {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .dossier {
+    width: 220px;
+    border: 1px solid rgba(199,201,224,0.15);
+    border-radius: 10px;
+    padding: 20px;
+    background: linear-gradient(160deg, rgba(124,92,252,0.06), rgba(11,14,26,0.4));
+    text-align: left;
+    position: relative;
+  }
+
+  .dossier-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .dossier-tag .status {
+    color: var(--amber);
+  }
+
+  .redacted {
+    height: 14px;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(199,201,224,0.18),
+      rgba(199,201,224,0.18) 4px,
+      rgba(199,201,224,0.08) 4px,
+      rgba(199,201,224,0.08) 8px
+    );
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+
+  .redacted.short { width: 60%; }
+
+  .dossier-icon {
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+
+  .dossier-footer {
+    margin-top: 16px;
+    font-size: 0.68rem;
+    color: rgba(199,201,224,0.55);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Email capture */
+  .capture {
+    margin-top: 52px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .capture input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(199,201,224,0.2);
+    color: var(--text-bright);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    width: 280px;
+    max-width: 70vw;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .capture input:focus {
+    border-color: var(--cyan);
+  }
+
+  .capture input::placeholder {
+    color: rgba(199,201,224,0.4);
+  }
+
+  .capture button {
+    background: linear-gradient(135deg, var(--amber), #ff8a3d);
+    border: none;
+    color: #1a1206;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    padding: 14px 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(255,179,71,0);
+    transition: box-shadow 0.25s, transform 0.15s;
+  }
+
+  .capture button:hover {
+    box-shadow: 0 0 24px rgba(255,179,71,0.45);
+    transform: translateY(-1px);
+  }
+
+  .capture button:focus-visible,
+  .capture input:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+
+  .form-msg {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    min-height: 1em;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    text-align: center;
+    padding: 50px 24px 60px;
+    font-size: 0.72rem;
+    color: rgba(199,201,224,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  footer .legacy-line {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: rgba(255,179,71,0.55);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="starfield"></div>
+
+<main>
+
+  <section class="hero">
+    <div class="portal-wrap">
+      <div class="portal-glow"></div>
+      <svg class="portal-ring" viewBox="0 0 260 260">
+        <defs>
+          <linearGradient id="portalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7C5CFC"/>
+            <stop offset="55%" stop-color="#38BDF8"/>
+            <stop offset="100%" stop-color="#FFB347"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-track" cx="130" cy="130" r="118"/>
+        <circle class="ring-progress" id="ringProgress" cx="130" cy="130" r="118"
+                stroke-dasharray="741" stroke-dashoffset="741"/>
+        <circle class="ring-spin" cx="130" cy="130" r="98"/>
+      </svg>
+      <div class="portal-core">
+        <svg class="m-logo" viewBox="0 0 100 100" fill="none">
+          <path d="M15 78V22L38 55L50 34L62 55L85 22V78" stroke="url(#portalGradient)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="countdown-numbers" id="countdown">
+          <span style="font-size:0.7rem;"><b style="font-size:1rem;">STARTING</b>2026</span>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="wordmark">MANUL STUDIO</h1>
+    <div class="pillars">Creativity · Innovation · Legacy</div>
+    <p class="tagline">"Where Dreams Meet Reality..."</p>
+
+    <div class="scroll-hint">
+      <span class="line"></span>
+      Scroll
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-mark">01</span></div>
+
+  <section class="block" id="branding">
+    <div class="eyebrow">Design &amp; Identity</div>
+    <h2>We Design Brands With Soul In Them</h2>
+    <p class="sub">Every mark, palette, and kit we build carries a point of view — never a template wearing a new coat of paint.</p>
+    <div class="swatch-row">
+      <div class="swatch" style="--sw-color:#7C5CFC;"><span>QUIET LUXURY</span></div>
+      <div class="swatch" style="--sw-color:#0B0E1A;"><span>OBSIDIAN</span></div>
+      <div class="swatch" style="--sw-color:#FFB347;"><span>ART DECO</span></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-mark">02</span></div>
+
+  <section class="block" id="games">
+    <div class="eyebrow">Game Development</div>
+    <h2>We Make Games With Memories In Them</h2>
+    <p class="sub">Built from real streets, real seasons, real childhoods. Every project below is under wraps until it's ready to meet you.</p>
+
+    <div class="dossier-row">
+      <div class="dossier">
+        <div class="dossier-tag">FILE-01 <span class="status">CLASSIFIED</span></div>
+        <div class="dossier-icon">🕹️</div>
+        <div class="redacted"></div>
+        <div class="redacted short"></div>
+        <div class="dossier-footer">Genre: Social Deception</div>
+      </div>
+      <div class="dossier">
+        <div class="dossier-tag">FILE-02 <span class="status">CLASSIFIED</span></div>
+        <div class="dossier-icon">❄️</div>
+        <div class="redacted"></div>
+        <div class="redacted short"></div>
+        <div class="dossier-footer">Genre: Casual / Freeze-Tag</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-mark">03</span></div>
+
+  <section class="block" id="signal">
+    <div class="eyebrow">Stay In The Loop</div>
+    <h2>Get word when the portal opens</h2>
+    <p class="sub">No spam, no noise — just the moment Manul Studio has something real to show you.</p>
+
+    <form class="capture" id="signalForm">
+      <input type="email" id="signalEmail" placeholder="you@email.com" required aria-label="Email address">
+      <button type="submit">Transmit</button>
+    </form>
+    <div class="form-msg" id="formMsg"></div>
+  </section>
+
+  <footer>
+    <div class="legacy-line">"Whenever you become successful, I'll consider my payback."</div>
+    Manul Studio · Karachi, Pakistan · © <span id="year"></span>
+  </footer>
+
+</main>
+
+<script>
+  // ---------- Starfield generation ----------
+  const starfield = document.getElementById('starfield');
+  const STAR_COUNT = 90;
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = (Math.random() * 4) + 's';
+    starfield.appendChild(star);
+  }
+
+  // ---------- Ambient portal ring (no live countdown, just a slow living pulse) ----------
+  const circumference = 741; // 2 * PI * 118, matches r=118
+  const ring = document.getElementById('ringProgress');
+  let t = 0;
+  function animateRing() {
+    t += 0.004;
+    const ratio = 0.35 + Math.sin(t) * 0.15; // gently breathes between ~20%-50% filled
+    ring.style.strokeDashoffset = circumference * (1 - ratio);
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // ---------- Email capture (writes to Supabase, insert-only) ----------
+  const SUPABASE_URL = 'https://uxsjqlcgyolxjjrzjlsb.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_aDW7KOqX6znBrY-1SuN3ig_eX0szNBl';
+
+  document.getElementById('signalForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const emailInput = document.getElementById('signalEmail');
+    const msg = document.getElementById('formMsg');
+    const button = e.target.querySelector('button');
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    button.disabled = true;
+    msg.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ email, source: 'coming_soon' })
+      });
+
+      if (res.ok) {
+        msg.textContent = 'Signal received. We\'ll reach out when it\'s time.';
+        emailInput.value = '';
+      } else if (res.status === 409) {
+        msg.textContent = 'You\'re already on the list.';
+      } else {
+        msg.textContent = 'Something went wrong. Try again shortly.';
+      }
+    } catch (err) {
+      msg.textContent = 'Connection issue. Try again shortly.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
